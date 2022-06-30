@@ -25,7 +25,7 @@ docker push iquinto/api-gateway
 
 ### Docker run (for testing)
 ```
-docker run -it -p 8081:81 --rm --name workingstudent workingstudentapp
+docker run -it -p 8081:81 --rm --name api-gateway api-gateway
 ```
 
 
