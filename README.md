@@ -1,7 +1,7 @@
 
 # Happy Paws
 
-Architectural Design: Microservice
+Architectural Design: Microservice <br>
 Architectural patern: MVC
 
 ## Components
