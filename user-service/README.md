@@ -2,7 +2,7 @@
 
 ## Models
 
-* User : name, email, password, sex, decription, city
+* User : name, surname, username,  email, password, phone, sex, decription, city
 * Role : ROLE_ADMIN, ROLE_USER
 
  
