@@ -64,14 +64,15 @@ public class AuthController {
 
 		log.info("[authenticateUser] is authenticated! ");
 
-		JwtResponse jwtResponse = new JwtResponse(jwt,
-				userDetails.getId(),
-				userDetails.getUsername(),
-				userDetails.getEmail(),
-				roles);
-		jwtResponse.setName(userDetails.getName());
-		jwtResponse.setSurname(userDetails.getSurname());
+		User user = userService.findUserByUsername(userDetails.getUsername()).orElse(null);
 
+		JwtResponse jwtResponse = new JwtResponse(jwt,
+				user.getId(),
+				user.getUsername(),
+				user.getEmail(),
+				roles);
+		jwtResponse.setName(user.getName());
+		jwtResponse.setSurname(user.getSurname());
 		return ResponseEntity.ok(jwtResponse);
 	}
 
@@ -93,7 +94,7 @@ public class AuthController {
 		}
 
 		// Create new user's account
-		User user = new User(signUpRequest.getUsername(), 
+		User user = new User(signUpRequest.getUsername(),
 							 signUpRequest.getEmail(),
 							 encoder.encode(signUpRequest.getPassword()));
 		user.setName(signUpRequest.getName());
