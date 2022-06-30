@@ -25,7 +25,7 @@ docker push iquinto/eureka-server
 
 ### Docker run (for testing)
 ```
-docker run -it -p 8081:81 --rm --name eureka-server eureka-server
+docker run -it -p 8761:8761 --rm --name eureka-server eureka-server
 ```
 
 
