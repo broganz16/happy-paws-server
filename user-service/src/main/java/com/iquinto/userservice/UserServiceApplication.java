@@ -12,6 +12,7 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 /*
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 */
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
@@ -21,7 +22,7 @@ import java.io.IOException;
 import java.text.ParseException;
 
 @SpringBootApplication
-/*@EnableDiscoveryClient*/
+@EnableDiscoveryClient
 public class UserServiceApplication {
 
 	@Value("${spring.profiles.active}")
