@@ -3,7 +3,7 @@
 
 Pet sharing web platform
 
-![alt text](https://github.com/[username]/[reponame]/blob/[branch]/image.jpg?raw=true)
+![alt text](https://github.com/broganz16/happy-paws/blob/main/uml.png?raw=true)
 
 
 ## Components
