@@ -1,0 +1,36 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: user-service
+  jpa:
+    hibernate:
+      ddl-auto: update
+      show_sql: true
+      dialect: H2
+  datasource:
+    url: jdbc:postgresql://localhost:5432/user_db
+    driverClassName: org.postgresql.Driver
+    username: postgres
+    password: 23-Manila
+
+iquinto:
+  app:
+    jwtSecret:  iquintoSecretKey
+    jwtExpirationMs:  86400000
+
+#---------------------
+# EUREKA CONFIG
+#---------------------
+eureka:
+  client:
+    service-url:
+      default-zone: http://localhost:8761/eureka/
+  instance:
+    lease-renewal-interval-in-seconds: 30
+    lease-expiration-duration-in-seconds: 90
+
+ribbon:
+  eureka:
+    enabled: true
