@@ -4,7 +4,6 @@
 Pet sharing web platform
 
 Propose Uml
-![alt text](https://github.com/broganz16/happy-paws/blob/main/uml.png?raw=true)
 
 ## Components
 * <a href="https://github.com/broganz16/happy-paws/tree/main/client-app"> Frontend </a> powered by VUE 
