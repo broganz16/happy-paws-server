@@ -17,8 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.io.Reader;
+import java.io.*;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -26,20 +25,17 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Log4j2
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Service
 public class UserServiceImpl implements UserService{
 
-    @Autowired
-    private  RoleRepository roleRepository;
+    private final RoleRepository roleRepository;
 
-    @Autowired
-    private  UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private   AddressRepository addressRepository;
+    private final  AddressRepository addressRepository;
 
-    @Autowired
-    private PasswordEncoder encoder;
+    private final PasswordEncoder encoder;
 
     @Override
     public List<Role> findAllRoles() {
@@ -102,9 +98,22 @@ public class UserServiceImpl implements UserService{
     // TEST DATA
     @Override
     public void loadData(){
-        try{
-            Reader reader = Files.newBufferedReader(Paths.get(
-                    ClassLoader.getSystemResource("address.csv").toURI()));
+        Role admin = new Role();
+        admin.setName(ERole.ROLE_ADMIN);
+        roleRepository.save(admin);
+
+        Role user = new Role();
+        user.setName(ERole.ROLE_USER);
+        roleRepository.save(user);
+
+        Role moderator = new Role();
+        moderator.setName(ERole.ROLE_MODERATOR);
+        roleRepository.save(moderator);
+
+        System.out.println("ROLE IS LOADED " + roleRepository.findAll().size());
+
+        try (InputStream inputStream = getClass().getResourceAsStream("/address.csv");
+             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
 
             CSVReader CSVReader =
                     new CSVReaderBuilder(reader).
@@ -119,48 +128,34 @@ public class UserServiceImpl implements UserService{
             }).collect(Collectors.toList());
             addressRepository.saveAll(csv_objectList);
             System.out.println("ADDRESS IS LOADED " + addressRepository.findAll().size());
-
-
-
-            Role admin = new Role();
-            admin.setName(ERole.ROLE_ADMIN);
-            roleRepository.save(admin);
-
-            Role user = new Role();
-            user.setName(ERole.ROLE_USER);
-            roleRepository.save(user);
-
-            Role moderator = new Role();
-            moderator.setName(ERole.ROLE_MODERATOR);
-            roleRepository.save(moderator);
-
-            System.out.println("ADDRESS IS LOADED " + roleRepository.findAll().size());
-
-
-            Faker faker;
-
-            for (int i=  0; i < 20 ; i++){
-                faker = new Faker();
-                User u = new User();
-                u.setName(faker.name().firstName());
-                u.setSurname(faker.name().lastName());
-                u.setEmail(faker.name().firstName() + "@gmail.com");
-                u.setPhone(faker.phoneNumber().toString());
-                u.setUsername("test1");
-                u.setPassword(encoder.encode("whatthefuck"));
-                Set<Role> roles = new HashSet<>();
-                roles.add(roleRepository.findByName(ERole.ROLE_USER).get());
-                u.setRoles(roles);
-                int randomId =  (int) (Math.random() * 50 + 1);
-                long r = randomId;
-                u.setAddress(addressRepository.findById(r).get());
-            }
-
-
-        } catch (IOException | CsvException | URISyntaxException e) {
+        } catch (IOException | CsvException e) {
             e.printStackTrace();
         }
+
+        Faker faker;
+        for (int i=  0; i < 20 ; i++){
+            faker = new Faker();
+            User u = new User();
+            u.setName(faker.name().firstName());
+            u.setSurname(faker.name().lastName());
+            u.setEmail(faker.name().firstName() + "@gmail.com");
+            u.setPhone(faker.phoneNumber().toString());
+            u.setUsername("test1");
+            u.setPassword(encoder.encode("whatthefuck"));
+            Set<Role> roles = new HashSet<>();
+            roles.add(roleRepository.findByName(ERole.ROLE_USER).get());
+            u.setRoles(roles);
+            int randomId =  (int) (Math.random() * 50 + 1);
+            long r = randomId;
+            u.setAddress(addressRepository.findById(r).get());
+            userRepository.save(u);
+        }
+
+        System.out.println("USER IS LOADED " + userRepository.findAll().size());
+
+
     }
+
 
 
 }

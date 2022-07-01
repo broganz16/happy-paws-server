@@ -20,6 +20,15 @@ public class Address {
 
     private String postalCode;
 
+    public Address(String city, String postalCode, String province) {
+        this.city = city;
+        this.postalCode = postalCode;
+        this.province = province;
+    }
+
+    public Address() {
+    }
+
     @Override
     public String toString() {
         return "Address{" +
