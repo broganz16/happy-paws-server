@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Log4j2
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/test")
 public class TestController {
 
+	@Autowired
 	private UserService userService;
 
 

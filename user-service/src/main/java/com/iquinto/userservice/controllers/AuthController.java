@@ -34,18 +34,21 @@ import com.iquinto.userservice.security.jwt.JwtUtils;
 import com.iquinto.userservice.security.services.UserDetailsImpl;
 
 @Log4j2
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
 
+	@Autowired
 	private AuthenticationManager authenticationManager;
 
+	@Autowired
 	private UserService userService;
 
+	@Autowired
 	private PasswordEncoder encoder;
 
+	@Autowired
 	private JwtUtils jwtUtils;
 
 	@PostMapping("/signin")
