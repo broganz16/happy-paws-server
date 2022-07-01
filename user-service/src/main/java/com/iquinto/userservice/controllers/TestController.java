@@ -1,19 +1,30 @@
 package com.iquinto.userservice.controllers;
 
+import com.iquinto.userservice.models.Address;
+import com.iquinto.userservice.models.Role;
+import com.iquinto.userservice.services.UserService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Log4j2
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/test")
 public class TestController {
 
+	private UserService userService;
+
+
 	@GetMapping("/all")
-	public String allAccess() {
+	public List<Address> allAccess() {
 		log.info("[m:monitor] USER-SERVICE IS WORKING ");
-		return  "USER-SERVICE IS WORKING";
+		return  userService.findAllAddresses();
 	}
 	
 	@GetMapping("/user")
