@@ -16,11 +16,11 @@ docker build -f Dockerfile -t userservice .
 
 ### Docker push to  hub 
 ```
-docker tag user-service  iquinto/user-service 
+docker tag userservice iquinto/hp-user-service 
 ```
 
 ```
-docker push iquinto/user-service 
+docker push iquinto/hp-user-service  
 ```
 
 ### Docker run (for testing)
