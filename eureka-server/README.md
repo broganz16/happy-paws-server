@@ -16,11 +16,11 @@ docker build -f Dockerfile -t eureka .
 
 ### Docker push to  hub 
 ```
-docker tag eureka-server iquinto/eureka-server
+docker tag eureka iquinto/hp-eureka
 ```
 
 ```
-docker push iquinto/eureka-server
+docker push iquinto/hp-eureka
 ```
 
 ### Docker run (for testing)
