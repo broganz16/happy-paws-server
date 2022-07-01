@@ -11,7 +11,7 @@
 ## Docker
 ### Docker build 
 ```
-docker build -t api-gateway .
+docker build -f Dockerfile -t gateway .
 ```
 
 ### Docker push to  hub 

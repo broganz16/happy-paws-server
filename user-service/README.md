@@ -11,7 +11,7 @@
 ## Docker
 ### Docker build 
 ```
-docker build -t user-service .
+docker build -f Dockerfile -t userservice .
 ```
 
 ### Docker push to  hub 

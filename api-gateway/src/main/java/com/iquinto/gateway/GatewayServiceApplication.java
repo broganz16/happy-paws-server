@@ -42,8 +42,6 @@ public class GatewayServiceApplication {
 
 	@EventListener(ApplicationReadyEvent.class)
 	public void doSomethingAfterStartup(){
-		System.out.println("Running at : http://localhost:"+ port +"/" + app);
-
 	}
 
 }

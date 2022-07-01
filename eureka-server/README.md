@@ -1,7 +1,7 @@
 # EUREKA (<i>Backend</i>)
 
 
-## Requirements
+## Requirementsr
 * [JDK 11](https://www.oracle.com/es/java/technologies/javase/jdk11-archive-downloads.html)
 * [Gradle version >= 5.0](https://docs.gradle.org/current/userguide/compatibility.html)
 * [Intellj IDEA](https://www.jetbrains.com/idea/) or similar
@@ -11,7 +11,7 @@
 ## Docker
 ### Docker build 
 ```
-docker build -t eureka-server .
+docker build -f Dockerfile -t eureka .
 ```
 
 ### Docker push to  hub 
