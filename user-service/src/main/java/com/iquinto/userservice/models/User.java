@@ -1,5 +1,6 @@
 package com.iquinto.userservice.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -45,11 +46,19 @@ public class User {
 	@Size(max = 120)
 	private String password;
 
+	@Size(max = 20)
+	private String phone;
+
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(	name = "user_roles", 
 				joinColumns = @JoinColumn(name = "user_id"), 
 				inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
+
+
+	@OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+	@JoinColumn(name = "address_id", referencedColumnName = "id")
+	private Address address;
 
 	public User() {
 	}

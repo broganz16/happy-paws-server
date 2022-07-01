@@ -80,8 +80,13 @@ public class UserServiceImpl implements UserService{
 
     // ADDRESS
     @Override
-    public List<Address> findAllAddresses() {
+    public List<Address> findAllAddress() {
         return addressRepository.findAll();
+    }
+
+    @Override
+    public Optional<Address>findAddressById(Long id) {
+        return addressRepository.findById(id);
     }
 
 

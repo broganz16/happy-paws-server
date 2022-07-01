@@ -1,7 +1,6 @@
 package com.iquinto.userservice.controllers;
 
 import com.iquinto.userservice.models.Address;
-import com.iquinto.userservice.models.Role;
 import com.iquinto.userservice.services.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -24,7 +23,7 @@ public class TestController {
 	@GetMapping("/all")
 	public List<Address> allAccess() {
 		log.info("[m:monitor] USER-SERVICE IS WORKING ");
-		return  userService.findAllAddresses();
+		return  userService.findAllAddress();
 	}
 	
 	@GetMapping("/user")

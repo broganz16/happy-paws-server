@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
+
+import com.iquinto.userservice.models.Address;
 import com.iquinto.userservice.services.UserService;
 import lombok.extern.log4j.Log4j2;
 import lombok.RequiredArgsConstructor;
@@ -97,8 +99,6 @@ public class AuthController {
 		User user = new User(signUpRequest.getUsername(),
 							 signUpRequest.getEmail(),
 							 encoder.encode(signUpRequest.getPassword()));
-		user.setName(signUpRequest.getName());
-		user.setSurname(signUpRequest.getSurname());
 
 		Set<String> strRoles = signUpRequest.getRole();
 		Set<Role> roles = new HashSet<>();
@@ -131,6 +131,13 @@ public class AuthController {
 		}
 
 		user.setRoles(roles);
+		/** ADDED **/
+		user.setName(signUpRequest.getName());
+		user.setSurname(signUpRequest.getSurname());
+		user.setPhone(signUpRequest.getPhone());
+
+		Address address = userService.findAddressById(signUpRequest.getAddressId()).get();
+		user.setAddress(address);
 		userService.saveUser(user);
 
 		log.info("[registerUser] user is created : " + user);
