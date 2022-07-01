@@ -1,5 +1,6 @@
 package com.iquinto.userservice.services;
 
+import com.github.javafaker.Faker;
 import com.iquinto.userservice.models.Address;
 import com.iquinto.userservice.models.ERole;
 import com.iquinto.userservice.models.Role;
@@ -13,6 +14,7 @@ import com.opencsv.exceptions.CsvException;
 import lombok.extern.log4j.Log4j2;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -20,9 +22,7 @@ import java.io.Reader;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Log4j2
@@ -34,8 +34,9 @@ public class UserServiceImpl implements UserService{
 
     private final UserRepository userRepository;
 
-    private final AddressRepository addressRepository;
+    private  final AddressRepository addressRepository;
 
+    private PasswordEncoder encoder;
 
     @Override
     public List<Role> findAllRoles() {
@@ -126,6 +127,27 @@ public class UserServiceImpl implements UserService{
             roleRepository.save(moderator);
 
             System.out.println("ADDRESS IS LOADED " + roleRepository.findAll().size());
+
+
+            Faker faker;
+
+            for (int i=  0; i < 20 ; i++){
+                faker = new Faker();
+                User u = new User();
+                u.setName(faker.name().firstName());
+                u.setSurname(faker.name().lastName());
+                u.setEmail(faker.name() + "@gmail.com");
+                u.setPhone(faker.phoneNumber().toString());
+                u.setUsername("test1");
+                u.setPassword(encoder.encode("whatthefuck"));
+                Set<Role> roles = new HashSet<>();
+                roles.add(roleRepository.findByName(ERole.ROLE_USER).get());
+                u.setRoles(roles);
+                int randomId =  (int) (Math.random() * 50 + 1);
+                long r = randomId;
+                u.setAddress(addressRepository.findById(r).get());
+            }
+
 
         } catch (IOException | CsvException | URISyntaxException e) {
             e.printStackTrace();
