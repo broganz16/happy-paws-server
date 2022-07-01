@@ -16,11 +16,11 @@ docker build -f Dockerfile -t gateway .
 
 ### Docker push to  hub 
 ```
-docker tag api-gateway iquinto/api-gateway
+docker tag gateway iquinto/hp-gateway
 ```
 
 ```
-docker push iquinto/api-gateway
+docker push iquinto/hp-gateway
 ```
 
 ### Docker run (for testing)
