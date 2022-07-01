@@ -11,17 +11,14 @@ import com.iquinto.userservice.services.UserService;
 import lombok.extern.log4j.Log4j2;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.iquinto.userservice.models.ERole;
 import com.iquinto.userservice.models.Role;
@@ -146,5 +143,11 @@ public class AuthController {
 		log.info("[registerUser] user is created : " + user);
 
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+	}
+
+	@RequestMapping(value ="/address", method = RequestMethod.GET)
+	public ResponseEntity<?> address(@RequestParam String query) {
+		log.info("[c: address] starts " + query);
+		return ResponseEntity.status(HttpStatus.OK).body(userService.findAllByQuery(query.toLowerCase()));
 	}
 }

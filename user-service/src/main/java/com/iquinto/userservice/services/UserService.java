@@ -47,4 +47,5 @@ public interface UserService{
 
     void loadData();
 
+    List<Address> findAllByQuery(String query);
 }

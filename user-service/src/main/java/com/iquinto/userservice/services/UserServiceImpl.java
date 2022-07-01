@@ -93,6 +93,11 @@ public class UserServiceImpl implements UserService{
         return addressRepository.findById(id);
     }
 
+    @Override
+    public List<Address> findAllByQuery(String query){
+        return addressRepository.findAllByQuery(query);
+    }
+
 
     // TEST DATA
     @Override
