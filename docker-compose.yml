@@ -9,7 +9,6 @@ services:
     environment:
       - JAVA_OPTS=
          -DEUREKA_SERVER=http://eureka:8761/eureka
-         -Dspring.cloud.config.server.native.searchLocations=/var/config-data
     depends_on:
       - eureka
     ports:
