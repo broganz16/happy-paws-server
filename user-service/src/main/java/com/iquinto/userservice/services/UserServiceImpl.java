@@ -95,7 +95,7 @@ public class UserServiceImpl implements UserService{
     public void loadData(){
         try{
             Reader reader = Files.newBufferedReader(Paths.get(
-                    ClassLoader.getSystemResource("data.csv").toURI()));
+                    ClassLoader.getSystemResource("address.csv").toURI()));
 
             CSVReader CSVReader =
                     new CSVReaderBuilder(reader).
