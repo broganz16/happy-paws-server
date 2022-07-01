@@ -2,7 +2,6 @@ package com.iquinto.userservice.controllers;
 
 import com.iquinto.userservice.models.Address;
 import com.iquinto.userservice.services.UserService;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;

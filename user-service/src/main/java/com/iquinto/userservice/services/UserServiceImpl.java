@@ -26,16 +26,19 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Log4j2
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Service
 public class UserServiceImpl implements UserService{
 
-    private final RoleRepository roleRepository;
+    @Autowired
+    private  RoleRepository roleRepository;
 
-    private final UserRepository userRepository;
+    @Autowired
+    private  UserRepository userRepository;
 
-    private  final AddressRepository addressRepository;
+    @Autowired
+    private   AddressRepository addressRepository;
 
+    @Autowired
     private PasswordEncoder encoder;
 
     @Override
@@ -136,7 +139,7 @@ public class UserServiceImpl implements UserService{
                 User u = new User();
                 u.setName(faker.name().firstName());
                 u.setSurname(faker.name().lastName());
-                u.setEmail(faker.name() + "@gmail.com");
+                u.setEmail(faker.name().firstName() + "@gmail.com");
                 u.setPhone(faker.phoneNumber().toString());
                 u.setUsername("test1");
                 u.setPassword(encoder.encode("whatthefuck"));

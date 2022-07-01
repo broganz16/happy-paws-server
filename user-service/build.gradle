@@ -31,7 +31,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
 
-	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+	/*implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'*/
 	implementation 'com.opencsv:opencsv:5.6'
 
 
