@@ -1,23 +1,40 @@
-version: '3'
+version: "3.7"
+
 services:
-  eureka:
-    image: eureka
-    ports:
-      - 8761:8761
-  gateway:
-    image: gateway
-    environment:
-      - JAVA_OPTS=
-         -DEUREKA_SERVER=http://eureka:8761/eureka
-    depends_on:
-      - eureka
-    ports:
-      - 8081:8081
-  user-service:
-    image: userservice
-    environment:
-      - JAVA_OPTS=
-        -DEUREKA_SERVER=http://eureka:8761/eureka
-    depends_on:
-      - eureka
-      - gateway
+ eureka-server:
+   container_name: eureka
+   image: eureka
+   ports:
+   - "8761:8761"
+   networks:
+      - backend  
+   
+ api-gateway:
+   container_name: gateway
+   image: gateway
+   hostname: "api-gateway"
+   ports:
+   - "8081:8081"
+   environment:
+   - eureka.client.serviceUrl.defaultZone=http://eureka-server:8761/eureka/
+   - eureka.instance.preferIpAddress=true
+   depends_on:
+     - eureka-server
+   networks:
+      - backend  
+
+ user-service:
+   container_name: userservice
+   image: userservice
+   hostname: "userservice"
+   ports:
+   - "8670:8670"
+   environment:
+   - eureka.client.serviceUrl.defaultZone=http://eureka-server:8761/eureka/
+   - eureka.instance.preferIpAddress=true
+   depends_on:
+     - eureka-server
+   networks:
+      - backend  
+networks:
+  backend:
