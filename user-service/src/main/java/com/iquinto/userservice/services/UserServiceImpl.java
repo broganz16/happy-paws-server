@@ -16,11 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.io.*;
-import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -95,9 +91,19 @@ public class UserServiceImpl implements UserService{
     }
 
 
+
+    // USER
+    @Override
+    public List<User> findAllUsers() {
+        return userRepository.findAll();
+    }
+
+
     // TEST DATA
     @Override
     public void loadData(){
+
+
         Role admin = new Role();
         admin.setName(ERole.ROLE_ADMIN);
         roleRepository.save(admin);
@@ -110,7 +116,6 @@ public class UserServiceImpl implements UserService{
         moderator.setName(ERole.ROLE_MODERATOR);
         roleRepository.save(moderator);
 
-        System.out.println("ROLE IS LOADED " + roleRepository.findAll().size());
 
         try (InputStream inputStream = getClass().getResourceAsStream("/address.csv");
              BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
@@ -127,35 +132,25 @@ public class UserServiceImpl implements UserService{
                 return csvObject;
             }).collect(Collectors.toList());
             addressRepository.saveAll(csv_objectList);
-            System.out.println("ADDRESS IS LOADED " + addressRepository.findAll().size());
         } catch (IOException | CsvException e) {
             e.printStackTrace();
         }
 
-        Faker faker;
-        for (int i=  0; i < 20 ; i++){
-            faker = new Faker();
-            User u = new User();
-            u.setName(faker.name().firstName());
-            u.setSurname(faker.name().lastName());
-            u.setEmail(faker.name().firstName() + "@gmail.com");
-            u.setPhone(faker.phoneNumber().toString());
-            u.setUsername("test1");
-            u.setPassword(encoder.encode("whatthefuck"));
-            Set<Role> roles = new HashSet<>();
-            roles.add(roleRepository.findByName(ERole.ROLE_USER).get());
-            u.setRoles(roles);
-            int randomId =  (int) (Math.random() * 50 + 1);
-            long r = randomId;
-            u.setAddress(addressRepository.findById(r).get());
-            userRepository.save(u);
-        }
-
-        System.out.println("USER IS LOADED " + userRepository.findAll().size());
+        User u = new User();
+        u.setName("Giovana");
+        u.setSurname("Diana");
+        u.setEmail("test@gmail.com");
+        u.setPhone("600075568");
+        u.setUsername("gdiana");
+        u.setPassword(encoder.encode("whatthefuck"));
+        Set<Role> roles = new HashSet<>();
+        roles.add(roleRepository.findByName(ERole.ROLE_USER).get());
+        u.setRoles(roles);
+        int randomId =  (int) (Math.random() * 50 + 1);
+        long r = randomId;
+        u.setAddress(addressRepository.findById(2L).get());
+        userRepository.save(u);
 
 
     }
-
-
-
 }

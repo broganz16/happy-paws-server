@@ -43,6 +43,8 @@ public interface UserService{
     List<Address> findAllAddress();
     Optional<Address> findAddressById(Long id);
 
+    // ADDRESS
+    public List<User> findAllUsers();
 
 
     void loadData();
