@@ -19,6 +19,12 @@ public class TestController {
 	private UserService userService;
 
 
+	@GetMapping("/monitor")
+	public String monitor() {
+		log.info("[m:monitor] USER-SERVICE IS WORKING ");
+		return  "USER-SERVICE IS WORKING";
+	}
+	
 	@GetMapping("/all")
 	public List<User> allAccess() {
 		log.info("[m:monitor] USER-SERVICE IS WORKING ");

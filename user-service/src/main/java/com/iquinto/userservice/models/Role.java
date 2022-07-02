@@ -1,9 +1,12 @@
 package com.iquinto.userservice.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "roles")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Role {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
