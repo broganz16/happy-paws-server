@@ -115,6 +115,7 @@ public class UserServiceImpl implements UserService{
         Role moderator = new Role();
         moderator.setName(ERole.ROLE_MODERATOR);
         roleRepository.save(moderator);
+        System.out.println("ROLES IS LOADED : " + this.findAllRoles().size());
 
 
         try (InputStream inputStream = getClass().getResourceAsStream("/address.csv");
@@ -136,6 +137,8 @@ public class UserServiceImpl implements UserService{
             e.printStackTrace();
         }
 
+        System.out.println("ADDRESS IS ADDED : " + this.findAllAddress().size());
+
         User u = new User();
         u.setName("Giovana");
         u.setSurname("Diana");
@@ -151,6 +154,24 @@ public class UserServiceImpl implements UserService{
         u.setAddress(addressRepository.findById(2L).get());
         userRepository.save(u);
 
+        int i;
+        for (i = 0; i < 20; i++){
+            Faker faker = new Faker();
+            User user1 = new User();
+            user1.setName(faker.name().firstName());
+            user1.setSurname(faker.name().lastName());
+            user1.setEmail(faker.name().username() + "@gmail.com");
+            user1.setPhone("600075568");
+            user1.setUsername(faker.name().username() );
+            user1.setPassword(encoder.encode("whatthefuck"));
+            user1.setRoles(roles);
+            int rIdI =  (int) (Math.random() * 50 + 1);
+            long rId = rIdI;
+            user1.setAddress(addressRepository.findById(rId).get());
+            userRepository.save(user1);
+        }
+
+        System.out.println("USERS IS ADDED : " + this.findAllUsers().size());
 
     }
 }

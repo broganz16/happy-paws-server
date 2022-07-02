@@ -17,6 +17,6 @@ public class UserServiceApplicationTests {
         Assertions.assertNotNull(userService);
         assertEquals(userService.findAllAddress().size(), 8119);
         assertEquals(userService.findAllRoles().size(), 3);
-        assertEquals(userService.findAllUsers().size(), 1);
+        assertEquals(userService.findAllUsers().size(), 21);
     }
 }
