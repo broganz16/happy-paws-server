@@ -26,15 +26,20 @@ public class Address implements Serializable {
 
     private String postalCode;
 
-
+    private String description;
 
     public Address(String city, String postalCode, String province) {
         this.city = city;
         this.postalCode = postalCode;
         this.province = province;
+        setDescriptio(city, postalCode, province);
     }
 
     public Address() {
+    }
+
+    void setDescriptio(String city, String postalCode, String province){
+        this.description = city + " " + postalCode + " " + province;
     }
 
     @Override

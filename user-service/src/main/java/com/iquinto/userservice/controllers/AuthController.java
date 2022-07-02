@@ -179,6 +179,8 @@ public class AuthController {
 	@RequestMapping(value ="/address", method = RequestMethod.GET)
 	public ResponseEntity<?> address(@RequestParam String query) {
 		log.info("[c: address] starts " + query);
-		return ResponseEntity.status(HttpStatus.OK).body(userService.findAllByQuery(query.toLowerCase()));
+		List<Address> list = userService.findAllByQuery(query.toLowerCase());
+		log.info("[c: address] list " + list.size());
+		return ResponseEntity.status(HttpStatus.OK).body(list);
 	}
 }
