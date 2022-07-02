@@ -126,10 +126,7 @@ public class UserServiceImpl implements UserService{
                             withSkipLines(1). // Skiping firstline as it is header
                             build();
             List<Address> csv_objectList=CSVReader.readAll().stream().map(data-> {
-                Address csvObject= new Address();
-                csvObject.setCity(data[1]);
-                csvObject.setPostalCode(data[2]);
-                csvObject.setProvince(data[3]);
+                Address csvObject= new Address(data[1], data[2], data[3]);
                 return csvObject;
             }).collect(Collectors.toList());
             addressRepository.saveAll(csv_objectList);

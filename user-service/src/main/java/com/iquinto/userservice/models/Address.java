@@ -32,14 +32,19 @@ public class Address implements Serializable {
         this.city = city;
         this.postalCode = postalCode;
         this.province = province;
-        setDescriptio(city, postalCode, province);
+        this.setDescription();
     }
 
     public Address() {
     }
 
-    void setDescriptio(String city, String postalCode, String province){
-        this.description = city + " " + postalCode + " " + province;
+    public void setDescription() {
+        this.description = this.city + ", " + this.postalCode + ", " + this.province;;
+    }
+
+
+    public String getDescription() {
+        return this.description;
     }
 
     @Override
@@ -51,6 +56,8 @@ public class Address implements Serializable {
                 ", postalCode='" + postalCode + '\'' +
                 '}';
     }
+
+
 }
 
 
