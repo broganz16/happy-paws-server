@@ -33,7 +33,7 @@ public interface UserService{
     void saveRole(Role role);
 
     // USER
-    void saveUser(User user);
+    User saveUser(User user);
     boolean existsUserByUsername (String name);
     boolean existsUserByEmail (String email);
     Optional<User> findUserByUsername(String username);

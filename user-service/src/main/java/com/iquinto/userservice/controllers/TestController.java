@@ -1,6 +1,6 @@
 package com.iquinto.userservice.controllers;
 
-import com.iquinto.userservice.models.Address;
+import com.iquinto.userservice.models.User;
 import com.iquinto.userservice.services.UserService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +20,9 @@ public class TestController {
 
 
 	@GetMapping("/all")
-	public List<Address> allAccess() {
+	public List<User> allAccess() {
 		log.info("[m:monitor] USER-SERVICE IS WORKING ");
-		return  userService.findAllAddress();
+		return  userService.findAllUsers();
 	}
 	
 	@GetMapping("/user")

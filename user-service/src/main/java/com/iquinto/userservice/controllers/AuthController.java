@@ -2,17 +2,21 @@ package com.iquinto.userservice.controllers;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import com.iquinto.userservice.models.Address;
+import com.iquinto.userservice.payload.request.UpdateRequest;
 import com.iquinto.userservice.services.UserService;
 import lombok.extern.log4j.Log4j2;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -51,7 +55,7 @@ public class AuthController {
 	@PostMapping("/signin")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
-		log.info("[authenticateUser] starts : " + loginRequest);
+		log.info("[c:AuthController  m:authenticateUser] starts : " + loginRequest);
 
 		Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
@@ -64,7 +68,7 @@ public class AuthController {
 				.map(item -> item.getAuthority())
 				.collect(Collectors.toList());
 
-		log.info("[authenticateUser] is authenticated! ");
+		log.info("[c:AuthController  m:authenticateUser] is authenticated! ");
 
 		User user = userService.findUserByUsername(userDetails.getUsername()).orElse(null);
 
@@ -80,9 +84,7 @@ public class AuthController {
 
 	@PostMapping("/signup")
 	public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
-
-		log.info("[registerUser] starts : " + signUpRequest);
-
+		log.info("[c:AuthController  m:registerUser] starts : " + signUpRequest);
 		if (userService.existsUserByUsername(signUpRequest.getUsername())) {
 			return ResponseEntity
 					.badRequest()
@@ -140,10 +142,39 @@ public class AuthController {
 		user.setAddress(address);
 		userService.saveUser(user);
 
-		log.info("[registerUser] user is created : " + user);
+		log.info("[c:AuthController  m:registerUser] user is created : " + user);
 
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
 	}
+
+	@RequestMapping(value ="/update", method = RequestMethod.GET)
+	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+	public ResponseEntity update(@Valid UpdateRequest updateRequest) {
+		log.info("[c:AuthController  m:update] starts " + updateRequest);
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String currentUserName = authentication.getName();
+		log.info("[c:AuthController  m:update ]  current username" + currentUserName);
+
+		User user = userService.findUserByUsername(currentUserName).orElse(null);
+		assert user != null;
+
+		if(!Objects.equals(updateRequest.getAddressId(), user.getAddress().getId())){
+			Address address = userService.findAddressById(updateRequest.getAddressId()).orElse(null);
+			if(address == null){
+				log.warn("[c:AuthController  m:update ]  address not found! ");
+			}else{
+				user.setAddress(address);
+			}
+		}
+
+		user.setName(updateRequest.getName());
+		user.setSurname(updateRequest.getSurname());
+		user.setPhone(updateRequest.getPhone());
+		user.setDescription(updateRequest.getDesciption());
+
+		return ResponseEntity.status(HttpStatus.OK).body(userService.saveUser(user));
+	}
+
 
 	@RequestMapping(value ="/address", method = RequestMethod.GET)
 	public ResponseEntity<?> address(@RequestParam String query) {

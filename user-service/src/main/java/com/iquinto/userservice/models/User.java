@@ -3,6 +3,7 @@ package com.iquinto.userservice.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -55,10 +56,15 @@ public class User {
 				inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
 
-
 	@OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
 	@JoinColumn(name = "address_id", referencedColumnName = "id")
 	private Address address;
+
+	@Lob
+	@Basic(fetch = FetchType.LAZY)
+	@Column(name = "description")
+	@Type(type = "text")
+	private String description;
 
 	public User() {
 	}

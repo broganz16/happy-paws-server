@@ -29,6 +29,7 @@ public class UserServiceApplication {
 	@Transactional
 	@EventListener(ApplicationReadyEvent.class)
 	public void doSomethingAfterStartup() {
+		System.out.println("LOADING DATA ..");
 		userService.loadData();
 	}
 }
