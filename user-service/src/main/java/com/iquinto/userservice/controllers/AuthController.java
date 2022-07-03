@@ -175,7 +175,6 @@ public class AuthController {
 		return ResponseEntity.status(HttpStatus.OK).body(userService.saveUser(user));
 	}
 
-
 	@RequestMapping(value ="/address", method = RequestMethod.GET)
 	public ResponseEntity<?> address(@RequestParam String query) {
 		log.info("[c: address] starts " + query);
@@ -183,4 +182,13 @@ public class AuthController {
 		log.info("[c: address] list " + list.size());
 		return ResponseEntity.status(HttpStatus.OK).body(list);
 	}
+
+	@RequestMapping(value ="/validate/{token}", method = RequestMethod.GET)
+	public ResponseEntity<?> validateToken(@PathVariable String token) {
+		log.info("[c: validateToken] starts " + token);
+		boolean isValid = jwtUtils.validateJwtToken(token);
+		log.info("[c: validateToken] is valid " + isValid);
+		return ResponseEntity.status(HttpStatus.OK).body(isValid);
+	}
+
 }
