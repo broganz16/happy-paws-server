@@ -32,8 +32,7 @@ public class Pet implements Serializable {
 	@Size(max = 20)
 	private String name;
 
-	@NotBlank
-	@Size(max = 50)
+	@NotNull
 	private int age;
 
 	@OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
@@ -49,8 +48,9 @@ public class Pet implements Serializable {
 	public Pet() {
 	}
 
-	public Pet(String name) {
+	public Pet(String name, int age) {
 		this.name = name;
+		this.age = age;
 	}
 
 }

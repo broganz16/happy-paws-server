@@ -21,12 +21,6 @@ public class Category implements Serializable {
 
     private String name;
 
-    private String province;
-
-    private String postalCode;
-
-    private String description;
-
     public Category(String name) {
         this.name = name;
     }
