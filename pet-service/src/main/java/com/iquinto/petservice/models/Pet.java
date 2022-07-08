@@ -48,9 +48,10 @@ public class Pet implements Serializable {
 	public Pet() {
 	}
 
-	public Pet(String name, int age) {
+	public Pet(Category category, String name, int age) {
 		this.name = name;
 		this.age = age;
+		this.category = category;
 	}
 
 }

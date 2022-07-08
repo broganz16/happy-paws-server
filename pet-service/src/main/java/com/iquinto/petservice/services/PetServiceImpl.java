@@ -27,6 +27,11 @@ public class PetServiceImpl implements PetService {
     private final PetRepository petRepository;
 
     @Override
+    public Category findCategoryById(Long id) {
+        return categoryRepository.getById(id);
+    }
+
+    @Override
     public List<Category> findAllCategories() {
         return categoryRepository.findAll();
     }
@@ -37,12 +42,17 @@ public class PetServiceImpl implements PetService {
     }
 
     @Override
+    public Pet savePet(Pet pet) {
+        return petRepository.save(pet);
+    }
+
+    @Override
     public void loadData() {
         Arrays.asList("Dog", "Cat", "Turtle", "Bird", "Lion", "Tiger").stream().forEach((c)-> {
-            categoryRepository.save(new Category(c));
+            Category category = categoryRepository.save(new Category(c));
             for (int i = 0; i < 5; i++){
                 Faker f = new Faker();
-                Pet pet = new Pet(f.funnyName().name(), 5);
+                Pet pet = new Pet(category, f.funnyName().name(), 5);
                 pet.setDescription("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua");
                 petRepository.save(pet);
             }
@@ -51,4 +61,6 @@ public class PetServiceImpl implements PetService {
         System.out.println("USERS IS ADDED : " + this.findAllCategories().size());
         System.out.println("USERS IS ADDED : " + this.findAllPets().size());
     }
+
+
 }

@@ -10,14 +10,11 @@ import java.util.Optional;
 public interface PetService {
 
     List<Category> findAllCategories();
-
+    Category findCategoryById(Long id);
 
 
     List<Pet> findAllPets();
-
+    Pet savePet(Pet pet);
 
     void loadData();
-
-
-
 }

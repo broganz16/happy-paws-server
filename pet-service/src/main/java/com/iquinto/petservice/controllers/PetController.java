@@ -4,6 +4,9 @@ package com.iquinto.petservice.controllers;
 import javax.validation.Valid;
 
 import com.iquinto.petservice.client.UserClient;
+import com.iquinto.petservice.interceptor.JwtUtils;
+import com.iquinto.petservice.models.Category;
+import com.iquinto.petservice.models.Pet;
 import com.iquinto.petservice.services.PetService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +28,9 @@ public class PetController {
 	@Autowired
 	private UserClient userClient;
 
+	@Autowired
+	private JwtUtils jwtUtils;
+
 	@GetMapping("/monitor")
 	public ResponseEntity<?> monitor() {
 
@@ -34,17 +40,28 @@ public class PetController {
 		hashMap.put("pet-service", "PET SERVICE IS WORKING");
 		hashMap.put("user-service", userClient.checkUserViaFeign());
 
-
 		return ResponseEntity.ok(hashMap);
+	}
+
+	@GetMapping("/test-token")
+	public ResponseEntity<?> testToken(@RequestHeader("Authorization") String token) {
+
+		log.info("[c:PetController  m:testToken] PET SERVICE IS WORKING : " + token);
+		String res = userClient.testauth();
+		log.info("[c:PetController  m:testToken] USERNAME: " + res);
+
+		return ResponseEntity.ok(res);
 	}
 
 
 	@GetMapping("/create")
-	public ResponseEntity<?> createPet(@Valid @RequestBody CreatePetRequest loginRequest) {
+	public ResponseEntity<?> createPet(@Valid @RequestBody CreatePetRequest createPetRequest) {
 
-		log.info("[c:PetController  m:authenticateUser] starts : " + loginRequest);
+		log.info("[c:PetController  m:createPet] starts : " + createPetRequest);
+		Category category = petService.findCategoryById(createPetRequest.getCategoryId());
 
-		return ResponseEntity.ok("dd");
+		Pet pet = new Pet(category, createPetRequest.getName(), createPetRequest.getAge());
+		return ResponseEntity.ok(petService.savePet(pet));
 	}
 
 

@@ -1,9 +1,6 @@
 package com.iquinto.userservice.controllers;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
@@ -183,12 +180,20 @@ public class AuthController {
 		return ResponseEntity.status(HttpStatus.OK).body(list);
 	}
 
-	@RequestMapping(value ="/validate/{token}", method = RequestMethod.GET)
-	public ResponseEntity<?> validateToken(@PathVariable String token) {
-		log.info("[c: validateToken] starts " + token);
-		boolean isValid = jwtUtils.validateJwtToken(token);
-		log.info("[c: validateToken] is valid " + isValid);
-		return ResponseEntity.status(HttpStatus.OK).body(isValid);
+	@RequestMapping(value ="/check-token/{token}", method = RequestMethod.GET)
+	public ResponseEntity<?> checkToken(@PathVariable String token) {
+		log.info("[c: checkToken] starts " + token);
+		boolean valid = jwtUtils.validateJwtToken(token);
+		log.info("[c: checkToken] valid " + valid);
+
+		String username = jwtUtils.getUserNameFromJwtToken(token);
+		log.info("[c: checkToken] username " + username);
+
+		Map<String, Object> map = new HashMap<>();
+		map.put("valid", valid);
+		map.put("username", username);
+
+		return ResponseEntity.status(HttpStatus.OK).body(map);
 	}
 
 }

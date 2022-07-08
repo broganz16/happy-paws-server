@@ -22,4 +22,7 @@ public class CreatePetRequest {
 
     private String description;
 
+    private String username;
+
+
 }
